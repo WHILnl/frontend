@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
 
-class LessonWidget extends StatelessWidget {
-  const LessonWidget(
+class Lesson {
+  const Lesson(
     this.lesson,
     this.classroom,
     this.teacher,
     this.start,
     this.stop, {
     this.lessonIndex = "",
-    super.key,
   });
 
   final String lessonIndex;
@@ -18,6 +17,11 @@ class LessonWidget extends StatelessWidget {
   final String teacher;
   final DateTime start;
   final DateTime stop;
+}
+
+class LessonWidget extends StatelessWidget {
+  const LessonWidget(this.lessonData, {super.key});
+  final Lesson lessonData;
 
   String _formatTime(DateTime time) =>
       '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
@@ -47,18 +51,18 @@ class LessonWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  _formatTime(start),
+                  _formatTime(lessonData.start),
                   style: theme.textTheme.labelMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
-                  _formatTime(stop),
+                  _formatTime(lessonData.stop),
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: theme.colorScheme.outline,
                   ),
                 ),
-                if (lessonIndex.isNotEmpty) ...[
+                if (lessonData.lessonIndex.isNotEmpty) ...[
                   const SizedBox(height: 4),
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -70,7 +74,7 @@ class LessonWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
-                      lessonIndex,
+                      lessonData.lessonIndex,
                       style: theme.textTheme.labelSmall?.copyWith(
                         color: accent,
                         fontWeight: FontWeight.bold,
@@ -95,14 +99,18 @@ class LessonWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    lesson,
+                    lessonData.lesson,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Text(teacher, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  Text(
+                    lessonData.teacher,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
             ),
@@ -117,7 +125,7 @@ class LessonWidget extends StatelessWidget {
                 child: Chip(
                   avatar: const Icon(Icons.meeting_room_outlined, size: 16),
                   label: Text(
-                    classroom,
+                    lessonData.classroom,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -134,10 +142,12 @@ class LessonWidget extends StatelessWidget {
 @Preview(name: "Lesson")
 Widget previewLessonWidget() {
   return LessonWidget(
-    "Nederlands",
-    "208",
-    "vinken, bah",
-    DateTime(2026, 12, 10, 11, 20),
-    DateTime(2026, 12, 10, 12, 10),
+    Lesson(
+      "Nederlands",
+      "208",
+      "vinken, bah",
+      DateTime(2026, 12, 10, 11, 20),
+      DateTime(2026, 12, 10, 12, 10),
+    ),
   );
 }
