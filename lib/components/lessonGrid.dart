@@ -28,18 +28,21 @@ class LessonGrid extends StatelessWidget {
   late final List<_Placement> _placements = _compute();
 
   double _dateFraction(DateTime time) {
+    // turns datetime into fraction of this days view (between start and end)
     if (dayDuration == 0) return 0;
     return time.difference(start).inMilliseconds / dayDuration;
   }
 
   List<_Placement> _compute() {
-    final sorted = [...lessons]..sort((a, b) => a.start.compareTo(b.start));
+    final sorted = [...lessons]
+      ..sort((a, b) => a.start.compareTo(b.start)); // sort the lessons by date
 
     final placements = <_Placement>[];
     final laneEnds = <DateTime>[];
 
-    var stackedLessonStart = 0;
-    DateTime? stackedLessonMaxEnd;
+    var stackedLessonStart =
+        0; // keep the index of the first of the current stacked lessons
+    DateTime? stackedLessonMaxEnd; // store the end datetime of the last current stacked lesson
 
     void setLaneCounts() {
       // updates lessons with their new lane counts so that they can devide their width correctly
@@ -50,17 +53,20 @@ class LessonGrid extends StatelessWidget {
     }
 
     for (final lesson in sorted) {
+      // new group starts if it's the first group or if the lesson start is after the previous groups's end
       final startsNew =
           stackedLessonMaxEnd == null ||
           !lesson.start.isBefore(stackedLessonMaxEnd);
 
       if (startsNew) {
-        setLaneCounts();
+        setLaneCounts(); // finish the previous group
         stackedLessonStart = placements.length;
         laneEnds.clear();
         stackedLessonMaxEnd = null;
       }
 
+      // put the lesson in the first lane whose last lesson is done;
+      // if every lane is still busy, open a new one on the right
       var lane = 0;
       while (lane < laneEnds.length && laneEnds[lane].isAfter(lesson.start)) {
         lane++;
@@ -71,6 +77,7 @@ class LessonGrid extends StatelessWidget {
         laneEnds[lane] = lesson.stop;
       }
 
+      // keep track of the furthest end datetime so we know when the group stops
       stackedLessonMaxEnd =
           (stackedLessonMaxEnd == null ||
               lesson.stop.isAfter(stackedLessonMaxEnd))
