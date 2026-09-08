@@ -113,7 +113,7 @@ class LessonWidget extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               child: Align(
-                alignment: Alignment.topCenter,
+                alignment: Alignment.topRight,
                 child: Chip(
                   avatar: const Icon(Icons.meeting_room_outlined, size: 16),
                   label: Text(

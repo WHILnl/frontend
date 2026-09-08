@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whil_frontend/components/lesson.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,8 +10,29 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(body: Center(child: Text('Hello WHIL!'))),
+    return MaterialApp(
+      home: Scaffold(
+        body: SizedBox(
+          width: 800,
+          height: 1000,
+          child: Column(
+            children: [
+              for (int i = 0; i <= 9; i++)
+                SizedBox(
+                  width: 800,
+                  height: 80,
+                  child: LessonWidget(
+                    "Nederlands",
+                    "100",
+                    "Smits",
+                    DateTime(2026),
+                    DateTime(2026),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
