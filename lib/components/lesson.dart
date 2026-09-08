@@ -20,7 +20,34 @@ class Lesson {
 }
 
 class LessonWidget extends StatelessWidget {
-  const LessonWidget(this.lessonData, {super.key});
+  const LessonWidget(
+    this.lessonData, {
+    super.key,
+    this.enableLessonIndex = true,
+  });
+  final bool enableLessonIndex;
+  final Lesson lessonData;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return BaseLessonWidget(
+          lessonData,
+          enableLessonIndex: constraints.maxHeight > 60,
+        );
+      },
+    );
+  }
+}
+
+class BaseLessonWidget extends StatelessWidget {
+  const BaseLessonWidget(
+    this.lessonData, {
+    super.key,
+    this.enableLessonIndex = true,
+  });
+  final bool enableLessonIndex;
   final Lesson lessonData;
 
   String _formatTime(DateTime time) =>
@@ -47,71 +74,79 @@ class LessonWidget extends StatelessWidget {
             width: 56,
             color: theme.colorScheme.surfaceContainerHighest,
             padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  _formatTime(lessonData.start),
-                  style: theme.textTheme.labelMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Text(
-                  _formatTime(lessonData.stop),
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.outline,
-                  ),
-                ),
-                if (lessonData.lessonIndex.isNotEmpty) ...[
-                  const SizedBox(height: 4),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 6,
-                      vertical: 1,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: AlignmentGeometry.topCenter,
+              child: Column(
+                children: [
+                  Text(
+                    _formatTime(lessonData.start),
+                    style: theme.textTheme.labelMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
                     ),
-                    decoration: BoxDecoration(
-                      color: accent.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(4),
+                  ),
+                  Text(
+                    _formatTime(lessonData.stop),
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: theme.colorScheme.outline,
                     ),
-                    child: Text(
-                      lessonData.lessonIndex,
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        color: accent,
-                        fontWeight: FontWeight.bold,
+                  ),
+                  if (enableLessonIndex &&
+                      lessonData.lessonIndex.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 1,
+                      ),
+                      decoration: BoxDecoration(
+                        color: accent.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        lessonData.lessonIndex,
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: accent,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
+                    const SizedBox(height: 4),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
 
-          // Seperator
+          // Separator
           Container(width: 4, color: accent),
 
           // Les
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    lessonData.lesson,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: AlignmentGeometry.topLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      lessonData.lesson,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                  Text(
-                    lessonData.teacher,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+                    Text(
+                      lessonData.teacher,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -122,12 +157,15 @@ class LessonWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               child: Align(
                 alignment: Alignment.topRight,
-                child: Chip(
-                  avatar: const Icon(Icons.meeting_room_outlined, size: 16),
-                  label: Text(
-                    lessonData.classroom,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Chip(
+                    avatar: const Icon(Icons.meeting_room_outlined, size: 16),
+                    label: Text(
+                      lessonData.classroom,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
               ),
@@ -141,7 +179,7 @@ class LessonWidget extends StatelessWidget {
 
 @Preview(name: "Lesson")
 Widget previewLessonWidget() {
-  return LessonWidget(
+  return BaseLessonWidget(
     Lesson(
       "Nederlands",
       "208",
