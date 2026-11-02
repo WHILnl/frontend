@@ -7,8 +7,8 @@ import "./components"
 ApplicationWindow {
   id: win
 
-  readonly property date dayStart: at(8)
-  readonly property date dayEnd: at(20)
+  readonly property date dayStart: at(8, 30)
+  readonly property date dayEnd: at(17)
 
   function at(hour, minute) {
     var d = new Date();
@@ -22,6 +22,11 @@ ApplicationWindow {
   Material.accent: Material.Blue
   title: qsTr("LessonGrid")
 
+  Rectangle {
+      anchors.fill: parent
+      color: Material.backgroundDimColor
+  }
+
   LessonData {
     startTime: win.at(8, 0)
     stopTime: win.at(9, 30)
@@ -32,7 +37,7 @@ ApplicationWindow {
     id: lessons
 
     LessonData {
-      lessonIndex: "u01"
+      lessonIndex: 1
       startTime: win.at(8, 30)
       stopTime: win.at(9, 20)
       title: "nat"
@@ -41,7 +46,7 @@ ApplicationWindow {
     }
 
     LessonData {
-      lessonIndex: "u02"
+      lessonIndex: 2
       startTime: win.at(9, 20)
       stopTime: win.at(10, 10)
       title: "schk"
@@ -50,7 +55,7 @@ ApplicationWindow {
     }
 
     LessonData {
-      lessonIndex: "u03"
+      lessonIndex: 3
       startTime: win.at(10, 30)
       stopTime: win.at(11, 20)
       title: "schk"
@@ -59,7 +64,7 @@ ApplicationWindow {
     }
 
     LessonData {
-      lessonIndex: "u04"
+      lessonIndex: 4
       startTime: win.at(11, 20)
       stopTime: win.at(12, 10)
       title: "nat"
@@ -68,7 +73,7 @@ ApplicationWindow {
     }
 
     LessonData {
-      lessonIndex: "u06"
+      lessonIndex: 6
       startTime: win.at(13, 30)
       stopTime: win.at(14, 20)
       title: "biol"
@@ -77,7 +82,7 @@ ApplicationWindow {
     }
 
     LessonData {
-      lessonIndex: "u07"
+      lessonIndex: 7
       startTime: win.at(14, 35)
       stopTime: win.at(15, 25)
       title: "wisb"

@@ -13,7 +13,7 @@ Item {
     stopTime: root.lesson ? root.lesson.stopTime : root.__epoch
     title: root.lesson ? root.lesson.title : ""
     location: root.lesson ? root.lesson.location : ""
-    lessonIndex: root.lesson ? root.lesson.lessonIndex : ""
+    lessonIndex: root.lesson ? root.lesson.lessonIndex : -1
     teacher: root.lesson ? root.lesson.teacher : ""
   }
 }

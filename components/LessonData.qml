@@ -6,6 +6,6 @@ QtObject {
   required property date stopTime
   required property string title
   property string location
-  property string lessonIndex
   property string teacher
+  property int lessonIndex
 }

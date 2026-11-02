@@ -9,12 +9,12 @@ Rectangle {
   required property date startTime
   required property date stopTime
   required property string title
-  property string lessonIndex: ""
+  property int lessonIndex: -1
   property string location: ""
   property string teacher: ""
 
   // Styling
-  property color backgroundColor: "#fffbfe"
+  property color backgroundColor: Material.backgroundColor
   property color borderColor: Material.dividerColor
   property int borderRadius: 12
   property int borderWidth: 1
@@ -110,7 +110,7 @@ Rectangle {
       Layout.fillHeight: true
       spacing: root.textSpacing
 
-      Label { // LessonIndex
+      Label { // location
         id: lessonIndexLabel
 
         visible: text.length > 0
@@ -122,9 +122,10 @@ Rectangle {
         font.bold: true
       }
 
-      Label { // Location
+      Label { // lessonIndex
+        visible: root.lessonIndex > 0
         Layout.alignment: Qt.AlignRight
-        text: root.lessonIndex
+        text: root.lessonIndex + "e"
         elide: Text.ElideRight
         wrapMode: Text.NoWrap
         maximumLineCount: 1
